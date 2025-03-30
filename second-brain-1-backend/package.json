@@ -7,7 +7,7 @@
     "start": "node dist/index.js",
     "dev": "npm run build && npm run start"
     "build": "cd client && npm run build",
-      "render-build":"npm install && npm run build" //changes
+      "render-build":"npm install && npm run build" 
 
   },
   "keywords": [],
