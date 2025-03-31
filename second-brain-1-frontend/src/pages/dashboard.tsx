@@ -1,15 +1,14 @@
 
-import '../App.css'
 import { useState, useEffect } from "react";
-import axios from 'axios';
-import { Button } from '../components/Button';
+import axios from "axios";
+import { Button } from "../components/Button";
 import { Card } from "../components/Card";
-import { CreateContentModal } from '../components/CreateContentModal';
-import { PlusIcon } from '../icons/Plusicon';
-import { ShareIcon } from '../icons/ShareIcon';
-import { Sidebar } from '../components/Sidebar';
-import { useContent } from '../hooks/useContent';
-import { BACKEND_URL } from '../config';
+import { CreateContentModal } from "../components/CreateContentModal";
+import { PlusIcon } from "../icons/Plusicon";
+import { ShareIcon } from "../icons/ShareIcon";
+import { Sidebar } from "../components/Sidebar";
+import { useContent } from "../hooks/useContent";
+import { BACKEND_URL } from "../config";
 
 interface Content {
   _id: string;
@@ -21,9 +20,8 @@ interface Content {
 export function Dashboard() {
   const [selectedType, setSelectedType] = useState<"twitter" | "youtube" | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const { contents, refresh } = useContent(); 
+  const { contents, refresh } = useContent();
 
-  // ✅ Filter contents based on selected type
   const filteredContents = selectedType 
     ? contents.filter(({ type }) => type === selectedType) 
     : contents;
@@ -32,18 +30,16 @@ export function Dashboard() {
     refresh();
   }, [modalOpen, refresh]);
 
-  // ✅ Fixed Delete Content Function
   const deleteContent = async (id: string) => {
     try {
       await axios.delete(`${BACKEND_URL}/api/v1/content`, {
         headers: {
-          Authorization: localStorage.getItem("token"),
-          "Content-Type": "application/json"
+          Authorization: localStorage.getItem("token") || "",
+          "Content-Type": "application/json",
         },
-        data: { contentId: id }
+        data: { contentId: id },
       });
-
-      refresh(); // Refresh list after deletion
+      refresh();
     } catch (error) {
       console.error("Error deleting content:", error);
     }
@@ -52,7 +48,6 @@ export function Dashboard() {
   return (
     <div className="flex">
       <Sidebar setSelectedType={setSelectedType} />
-
       <div className="p-4 ml-72 min-h-screen bg-gray-100 flex flex-col border-2 w-full">
         <CreateContentModal open={modalOpen} onClose={() => setModalOpen(false)} />
 
@@ -64,16 +59,13 @@ export function Dashboard() {
             startIcon={<PlusIcon />} 
             size="lg" 
           />
-
           <Button 
             onClick={async () => {
               try {
                 const response = await axios.get<{ hash: string }>(`${BACKEND_URL}/api/v1/content/share`, {
-                  headers: { Authorization: localStorage.getItem("token") }
+                  headers: { Authorization: localStorage.getItem("token") || "" }
                 });
-
-                const shareUrl = `http://localhost:5173/dashboard/${response.data.hash}`;
-                alert(shareUrl);
+                alert(`http://localhost:5173/dashboard/${response.data.hash}`);
               } catch (error) {
                 console.error("Error generating share link:", error);
                 alert("Failed to generate share link.");
@@ -86,30 +78,29 @@ export function Dashboard() {
           />
         </div>
 
-        {/* ✅ Fixed JSX Structure */}
-       <div className="flex gap-4 flex-wrap mt-6">
-  {filteredContents && filteredContents.length > 0 ? (
-    filteredContents.map(({ _id, type, link, title }) => (
-      <Card 
-        key={_id} 
-        id={_id} 
-        type={type} 
-        link={link} 
-        title={title} 
-        deleteContent={deleteContent} 
-      />
-    ))
-  ) : (
-    <p>No content available</p> // Show a message when there is no data
-  )}
-</div>
-
+        <div className="flex gap-4 flex-wrap mt-6">
+          {filteredContents && filteredContents.length > 0 ? (
+            filteredContents.map(({ _id, type, link, title }) => (
+              <Card 
+                key={_id} 
+                id={_id} 
+                type={type} 
+                link={link} 
+                title={title} 
+                deleteContent={deleteContent} 
+              />
+            ))
+          ) : (
+            <p>No content available</p>
+          )}
+        </div>
       </div>
     </div>
   );
 }
 
 export default Dashboard;
+
 
 
 
