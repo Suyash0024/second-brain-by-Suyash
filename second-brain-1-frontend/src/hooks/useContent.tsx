@@ -1,21 +1,23 @@
 
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { BACKEND_URL } from "../config";
+export function useContent(): { contents: Content[]; refresh: () => Promise<void> } { 
+  const [contents, setContents] = useState<Content[]>([]);
 
-// ✅ Define response structure
-interface Content {
-    _id: string;
-    type: "twitter" | "youtube";
-    link: string;
-    title: string;
+  const refresh = async (): Promise<void> => {
+    try {
+      const response = await axios.get<{ contents: Content[] }>(`${BACKEND_URL}/api/v1/content`, {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+      setContents(response.data.contents || []);
+    } catch (error) {
+      console.error("Error fetching content:", error);
+      setContents([]); 
+    }
+  };
+
+  useEffect(() => { refresh(); }, []);
+
+  return { contents, refresh };
 }
-
-interface ContentResponse {
-    contents: Content[];
-}
-
-export function useContent()
 
 
 
