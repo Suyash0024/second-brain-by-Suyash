@@ -78,7 +78,7 @@ export function Dashboard() {
             variant="secondary" 
             text="Share Brain" 
             startIcon={<ShareIcon />} 
-            size="medium" // ✅ Fixed missing size
+            size="md" // ✅ Fixed missing size
           />
         </div>
 
