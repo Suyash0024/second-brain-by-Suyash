@@ -11,9 +11,8 @@ import { Sidebar } from '../components/Sidebar';
 import { useContent } from '../hooks/useContent';
 import { BACKEND_URL } from '../config';
 
-// Define Content interface to ensure `_id` exists
 interface Content {
-  _id: string; 
+  _id: string;
   title: string;
   link: string;
   type: "youtube" | "twitter";
@@ -22,7 +21,7 @@ interface Content {
 export function Dashboard() {
   const [selectedType, setSelectedType] = useState<"twitter" | "youtube" | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const { contents, refresh } = useContent(); // ✅ Fixed return from useContent
+  const { contents, refresh } = useContent(); // ✅ useContent now correctly returns { contents, refresh }
 
   const filteredContents = selectedType 
     ? contents.filter(({ type }) => type === selectedType) 
@@ -32,21 +31,18 @@ export function Dashboard() {
     refresh();
   }, [modalOpen, refresh]); // ✅ Added refresh as dependency
 
-  // ✅ Corrected Delete Function (removed `setContents`)
+  // ✅ Fixed delete function
   const deleteContent = async (id: string) => {
     try {
-      await axios.request({
-        method: "DELETE",
-        url: `${BACKEND_URL}/api/v1/content`,
+      await axios.delete(`${BACKEND_URL}/api/v1/content`, {
         headers: {
           Authorization: localStorage.getItem("token"),
           "Content-Type": "application/json"
         },
-        data: { contentId: id } // ✅ Correct way to pass body in DELETE request
+        data: { contentId: id }
       });
 
-      // ✅ Refresh after deletion
-      refresh();
+      refresh(); // ✅ Refresh after deletion
     } catch (error) {
       console.error("Error deleting content:", error);
     }
@@ -54,56 +50,50 @@ export function Dashboard() {
 
   return (
     <div className="flex">
-      {/* Sidebar with filtering functionality */}
       <Sidebar setSelectedType={setSelectedType} />
 
-      {/* Main Content Section */}
       <div className="p-4 ml-72 min-h-screen bg-gray-100 flex flex-col border-2 w-full">
         <CreateContentModal open={modalOpen} onClose={() => setModalOpen(false)} />
 
         <div className="flex justify-end gap-4">
-          {/* ✅ Fixed missing size prop */}
           <Button 
             onClick={() => setModalOpen(true)} 
             variant="primary" 
             text="Add content" 
             startIcon={<PlusIcon />} 
-            size="lg" // ✅ Using a valid size
+            size="lg" 
           />
 
           <Button 
             onClick={async () => {
               try {
-                const response = await axios.get<{ hash: string }>(`${BACKEND_URL}/api/v1/content`, {
-                  params: { share: true }, // ✅ Corrected axios.get request
-                  headers: {
-                    "Authorization": localStorage.getItem("token")
-                  }
+                const response = await axios.get<{ hash: string }>(`${BACKEND_URL}/api/v1/content/share`, {
+                  headers: { Authorization: localStorage.getItem("token") }
                 });
 
                 const shareUrl = `http://localhost:5173/dashboard/${response.data.hash}`;
                 alert(shareUrl);
               } catch (error) {
-                console.error("Error fetching share URL:", error);
+                console.error("Error generating share link:", error);
                 alert("Failed to generate share link.");
               }
             }}
             variant="secondary" 
             text="Share Brain" 
             startIcon={<ShareIcon />} 
-            size="lg" // ✅ Ensured valid size
+            size="lg" 
           />
         </div>
 
         <div className="flex gap-4 flex-wrap mt-6">
-          {filteredContents.map(({ _id, type, link, title }: Content) => (
+          {filteredContents.map((content: Content) => (
             <Card 
-              key={_id} 
-              id={_id} 
-              type={type} 
-              link={link} 
-              title={title} 
-              deleteContent={deleteContent} // ✅ Pass correct function
+              key={content._id} 
+              id={content._id} 
+              type={content.type} 
+              link={content.link} 
+              title={content.title} 
+              deleteContent={deleteContent} 
             />
           ))}
         </div>
