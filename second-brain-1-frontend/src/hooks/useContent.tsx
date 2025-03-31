@@ -1,55 +1,36 @@
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
-// Define correct response type
 interface Content {
-    id: string;
+    _id: string;
     title: string;
     link: string;
     type: "youtube" | "twitter";
 }
 
-interface ApiResponse {
-    contents: Content[];
-}
-
 export function useContent() {
-    const [contents, setContents] = useState<Content[]>([]); 
+    const [contents, setContents] = useState<Content[]>([]);
 
-    async function refresh() {
+    const refresh = async () => {
         try {
-            const response = await axios.get<ApiResponse>(`${BACKEND_URL}/api/v1/content`, {
-                headers: { "Authorization": localStorage.getItem("token") || "" }
+            const response = await axios.get<{ contents: Content[] }>(`${BACKEND_URL}/api/v1/content`, {
+                headers: { Authorization: localStorage.getItem("token") }
             });
-
-            console.log("API Response:", response.data); // Debugging
-
-            if (response.data && Array.isArray(response.data.contents)) {
-                setContents(response.data.contents);
-            } else {
-                console.error("Unexpected API response format", response.data);
-                setContents([]);
-            }
+            setContents(response.data.contents);
         } catch (error) {
             console.error("Error fetching content:", error);
         }
-    }
+    };
 
     useEffect(() => {
         refresh();
-        const interval = setInterval(() => {
-            refresh();
-        }, 10000);
-
-        return () => {
-            clearInterval(interval);
-        };
     }, []);
 
-    return { contents, refresh };
+    return { contents, refresh }; // ✅ Ensured correct return structure
 }
+
 
 
 // import { useEffect, useState } from "react";
