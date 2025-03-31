@@ -9,7 +9,7 @@ interface Content {
     type: "youtube" | "twitter";
 
 export function useContent() {
-    const [contents, setContents] = useState([]);
+    const [contents, setContents] = useState<Content[]>([]);  ////Definig intterface while deloying
 
     function refresh () {
         axios.get(`${BACKEND_URL}/api/v1/content`, {
