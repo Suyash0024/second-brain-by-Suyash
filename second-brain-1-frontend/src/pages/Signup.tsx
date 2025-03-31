@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 export function Signup() {
 
- const usernameRef = useRef<HTMLInputElement>(null);
-const passwordRef = useRef<HTMLInputElement>(null);
+ const usernameRef = useRef<HTMLInputElement>(null!);
+const passwordRef = useRef<HTMLInputElement>(null!);
     const navigate = useNavigate();
     async function signup() {
         const username = usernameRef.current?.value;
