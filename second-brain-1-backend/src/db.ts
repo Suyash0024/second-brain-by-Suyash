@@ -1,7 +1,15 @@
 import mongoose, {model, Schema} from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
-mongoose.connect(process.env.MONGODB_URI) || mongoose.connect("mongodb+srv://suyash24:suyash24@cluster01.vdwhb.mongodb.net/second-brain");
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://suyash24:suyash24@cluster01.vdwhb.mongodb.net/second-brain";
+
+if (!MONGODB_URI) {
+  throw new Error("MONGODB_URI is not defined. Set it in environment variables.");
+}
+
+mongoose.connect(MONGODB_URI)
+  .then(() => console.log("Connected to MongoDB ✅"))
+  .catch((err) => console.error("MongoDB Connection Error ❌", err));
 // mongoose.connect("mongodb+srv://suyash24:suyash24@cluster01.vdwhb.mongodb.net/second-brain")
 
 const UserSchema = new Schema({
