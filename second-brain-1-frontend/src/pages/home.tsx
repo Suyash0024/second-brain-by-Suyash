@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "../components/Button";
-import { HeartIcon } from "../icons/Hearticon"; // ✅ Ensure correct path
+// import { HeartIcon } from "../icons/Hearticon"; // ✅ Ensure correct path
 
 export function Home() {
   return (
