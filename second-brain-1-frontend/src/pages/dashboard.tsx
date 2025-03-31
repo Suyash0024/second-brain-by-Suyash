@@ -88,18 +88,16 @@ export function Dashboard() {
           />
         </div>
 
-        <div className="flex gap-4 flex-wrap mt-6">
-          {filteredContents.map((content: Content) => (
-            <Card 
-              key={content._id} 
-              id={content._id} 
-              type={content.type} 
-              link={content.link} 
-              title={content.title} 
-              deleteContent={deleteContent} 
-            />
-          ))}
-        </div>
+      <div className="flex gap-4 flex-wrap mt-6">
+  {filteredContents?.length > 0 ? (
+    filteredContents.map(({ _id, type, link, title }) => (
+      <Card key={_id} id={_id} type={type} link={link} title={title} deleteContent={deleteContent} />
+    ))
+  ) : (
+    <p>No content available</p> // ✅ Add fallback to avoid blank screen
+  )}
+</div>
+
       </div>
     </div>
   );
