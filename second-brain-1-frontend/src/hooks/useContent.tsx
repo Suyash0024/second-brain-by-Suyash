@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
+//Definig intterface while deloying
+interface Content {
+    id: string;
+    title: string;
+    link: string;
+    type: "youtube" | "twitter";
 
 export function useContent() {
     const [contents, setContents] = useState([]);
