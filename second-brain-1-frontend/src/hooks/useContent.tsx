@@ -1,23 +1,23 @@
-
-export function useContent(): { contents: Content[]; refresh: () => Promise<void> } { 
-  const [contents, setContents] = useState<Content[]>([]);
-
-  const refresh = async (): Promise<void> => {
+export function useContent() {
+  const [contents, setContents] = useState<Content[]>([]); // Ensure default value is an empty array
+  const refresh = async () => {
     try {
-      const response = await axios.get<{ contents: Content[] }>(`${BACKEND_URL}/api/v1/content`, {
+      const response = await axios.get(`${BACKEND_URL}/api/v1/content`, {
         headers: { Authorization: localStorage.getItem("token") },
       });
-      setContents(response.data.contents || []);
+      setContents(response.data.contents || []); // Ensure it's always an array
     } catch (error) {
       console.error("Error fetching content:", error);
-      setContents([]); 
     }
   };
 
-  useEffect(() => { refresh(); }, []);
+  useEffect(() => {
+    refresh();
+  }, []);
 
   return { contents, refresh };
 }
+
 
 
 
