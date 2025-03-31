@@ -4,7 +4,7 @@ import axios from "axios";
 import { Button } from "../components/Button";
 import { Card } from "../components/Card";
 import { CreateContentModal } from "../components/CreateContentModal";
-import { PlusIcon } from "../icons/PlusIcon";
+import { PlusIcon } from "../icons/Plusicon";
 import { ShareIcon } from "../icons/ShareIcon";
 import { Sidebar } from "../components/Sidebar";
 import { useContent } from "../hooks/useContent";
