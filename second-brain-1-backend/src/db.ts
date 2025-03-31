@@ -17,17 +17,22 @@ dotenv.config();
 //   });
 
 
-const MONGODB_URI = "mongodb+srv://suyash24:suyash24@cluster01.vdwhb.mongodb.net/second-brain?retryWrites=true&w=majority";
+ // Load environment variables
+
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  console.error("❌ ERROR: Missing MongoDB URI. Check your .env file or environment variables.");
+  process.exit(1); // Stop execution
+}
 
 mongoose
-  .connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 5000, // Avoid long waits
-  })
+  .connect(MONGODB_URI)
   .then(() => console.log("✅ Connected to MongoDB successfully"))
-  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
-
+  .catch((err) => {
+    console.error("❌ MongoDB Connection Error:", err);
+    process.exit(1); // Stop execution
+  });
 
 // mongoose.connect("mongodb+srv://suyash24:suyash24@cluster01.vdwhb.mongodb.net/second-brain")
 
