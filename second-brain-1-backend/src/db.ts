@@ -15,7 +15,21 @@ dotenv.config();
 //     console.error("❌ MongoDB Connection Error:", err);
 //     process.exit(1); // Exit on error
 //   });
-mongoose.connect("mongodb+srv://suyash24:suyash24@cluster01.vdwhb.mongodb.net/second-brain")
+
+
+const MONGODB_URI = "mongodb+srv://suyash24:suyash24@cluster01.vdwhb.mongodb.net/second-brain?retryWrites=true&w=majority";
+
+mongoose
+  .connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000, // Avoid long waits
+  })
+  .then(() => console.log("✅ Connected to MongoDB successfully"))
+  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
+
+
+// mongoose.connect("mongodb+srv://suyash24:suyash24@cluster01.vdwhb.mongodb.net/second-brain")
 
 const UserSchema = new Schema({
     username: {type: String, unique: true},
