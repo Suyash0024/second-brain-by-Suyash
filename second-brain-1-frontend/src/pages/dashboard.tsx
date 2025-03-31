@@ -21,35 +21,33 @@ interface Content {
 export function Dashboard() {
   const [selectedType, setSelectedType] = useState<"twitter" | "youtube" | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const { contents, refresh } = useContent(); // ✅ useContent now correctly returns { contents, refresh }
+  const { contents, refresh } = useContent(); 
 
+  // ✅ Filter contents based on selected type
   const filteredContents = selectedType 
     ? contents.filter(({ type }) => type === selectedType) 
     : contents;
 
   useEffect(() => {
     refresh();
-  }, [modalOpen, refresh]); // ✅ Added refresh as dependency
+  }, [modalOpen, refresh]);
 
-  // ✅ Fixed delete function
+  // ✅ Fixed Delete Content Function
   const deleteContent = async (id: string) => {
     try {
-        await axios.request({
-            method: "DELETE", // ✅ Correct way to send data in DELETE request
-            url: `${BACKEND_URL}/api/v1/content`,
-            headers: {
-                Authorization: localStorage.getItem("token"),
-                "Content-Type": "application/json"
-            },
-            data: { contentId: id } // ✅ Proper way to include data in DELETE
-        });
+      await axios.delete(`${BACKEND_URL}/api/v1/content`, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+          "Content-Type": "application/json"
+        },
+        data: { contentId: id }
+      });
 
-        refresh(); // Refresh the content list after deletion
+      refresh(); // Refresh list after deletion
     } catch (error) {
-        console.error("Error deleting content:", error);
+      console.error("Error deleting content:", error);
     }
-};
-
+  };
 
   return (
     <div className="flex">
@@ -88,29 +86,26 @@ export function Dashboard() {
           />
         </div>
 
-      <div className="flex gap-4 flex-wrap mt-6">
- const filteredContents = selectedType 
-  ? contents.filter(({ type }: { type: "twitter" | "youtube" }) => type === selectedType) 
-  : contents;
-
-{filteredContents.map(({ _id, type, link, title }: { _id: string; type: "twitter" | "youtube"; link: string; title: string }) => (
-  <Card 
-    key={_id} 
-    id={_id} 
-    type={type} 
-    link={link} 
-    title={title} 
-    deleteContent={deleteContent} 
-  />
-))}
-
-
+        {/* ✅ Fixed JSX Structure */}
+        <div className="flex gap-4 flex-wrap mt-6">
+          {filteredContents.map(({ _id, type, link, title }) => (
+            <Card 
+              key={_id} 
+              id={_id} 
+              type={type} 
+              link={link} 
+              title={title} 
+              deleteContent={deleteContent} 
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
 export default Dashboard;
+
 
 
 
