@@ -16,8 +16,8 @@ interface CreateContentModalProps {
 }
 
 export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
-    const titleRef = useRef<HTMLInputElement>(null);
-    const linkRef = useRef<HTMLInputElement>(null);
+    const titleRef = useRef<HTMLInputElement>(null!);
+    const linkRef = useRef<HTMLInputElement>(null!);
     const [type, setType] = useState(ContentType.Youtube);
 
     async function addContent() {
