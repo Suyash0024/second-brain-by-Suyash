@@ -34,19 +34,22 @@ export function Dashboard() {
   // ✅ Fixed delete function
   const deleteContent = async (id: string) => {
     try {
-      await axios.delete(`${BACKEND_URL}/api/v1/content`, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-          "Content-Type": "application/json"
-        },
-        data: { contentId: id }
-      });
+        await axios.request({
+            method: "DELETE", // ✅ Correct way to send data in DELETE request
+            url: `${BACKEND_URL}/api/v1/content`,
+            headers: {
+                Authorization: localStorage.getItem("token"),
+                "Content-Type": "application/json"
+            },
+            data: { contentId: id } // ✅ Proper way to include data in DELETE
+        });
 
-      refresh(); // ✅ Refresh after deletion
+        refresh(); // Refresh the content list after deletion
     } catch (error) {
-      console.error("Error deleting content:", error);
+        console.error("Error deleting content:", error);
     }
-  };
+};
+
 
   return (
     <div className="flex">
