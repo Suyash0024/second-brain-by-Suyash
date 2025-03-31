@@ -72,7 +72,7 @@ export function Dashboard() {
                   "Authorization": localStorage.getItem("token")
                 }
               });
-              const shareUrl = `http://localhost:5173/dashboard/${response.data.hash}`;
+              const shareUrl = `http://localhost:5173/dashboard/${(response.data as { hash: string }).hash}`;
               alert(shareUrl);
             }}
             variant="secondary" 
