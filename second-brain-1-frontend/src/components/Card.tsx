@@ -1,6 +1,6 @@
 import { ShareIcon } from "../icons/ShareIcon";
 import { YoutubeIcon } from "../icons/YoutubeIcon";
-import { TwitterIcon } from "../icons/Twittericon";
+import { TwitterIcon } from "../icons/TwitterIcon";
 import { DeleteIcon } from "../icons/DeleteIcon";
 
 interface CardProps {
