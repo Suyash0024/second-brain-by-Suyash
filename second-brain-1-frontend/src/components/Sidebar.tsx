@@ -1,4 +1,4 @@
-import { TwitterIcon } from "../icons/Twittericon";
+import { TwitterIcon } from "../icons/TwitterIcon";
 import { YoutubeIcon } from "../icons/YoutubeIcon";
 import { SidebarItem } from "./SidebarItem";
 import { Logo } from "../icons/Logo";
