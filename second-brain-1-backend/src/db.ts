@@ -1,7 +1,7 @@
 import mongoose, {model, Schema} from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI) || mongoose.connect("mongodb+srv://suyash24:suyash24@cluster01.vdwhb.mongodb.net/second-brain");
 // mongoose.connect("mongodb+srv://suyash24:suyash24@cluster01.vdwhb.mongodb.net/second-brain")
 
 const UserSchema = new Schema({
