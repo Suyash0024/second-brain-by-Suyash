@@ -9,9 +9,12 @@ enum ContentType {
     Youtube = "youtube",
     Twitter = "twitter"
 }
-
+interface CreateContentModalProps {
+  open: boolean;
+  onClose: () => void;
+} // added while deploying issue
 //controlled component
-export function CreateContentModal({open, onClose}) {
+export function CreateContentModal({ open, onClose }: CreateContentModalProps) {
     const titleRef = useRef<HTMLInputElement>();
     const linkRef = useRef<HTMLInputElement>();
     const [type, setType] = useState(ContentType.Youtube);
@@ -35,8 +38,9 @@ export function CreateContentModal({open, onClose}) {
         
 
     }
-    return <div>
-        {open && <div> 
+    // return <div>
+    //     {open && <div> 
+    return <div>{open ? "Modal Open" : "Modal Closed"}</div>; //while deploying
             
             
             <div className="w-screen h-screen 
