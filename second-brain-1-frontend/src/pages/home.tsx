@@ -32,9 +32,10 @@ export function Home() {
       </div>
 
       {/* ❤️ Footer Section */}
-      <footer className="fixed bottom-5 text-gray-600 text-sm flex items-center">
-        Made with <HeartIcon className="text-red-500 mx-1" /> by Suyash Garud
-      </footer>
+     <footer className="absolute bottom-5 text-gray-600 text-sm flex items-center">
+  Made with <HeartIcon className="w-5 h-5 text-red-500 mx-1" /> by Suyash Garud
+</footer>
+
     </div>
   );
 }
