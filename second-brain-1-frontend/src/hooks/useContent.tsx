@@ -3,34 +3,45 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
-export function useContent() {
-    const [contents, setContents] = useState<any[]>([]); // ✅ Explicitly define type
-
-    async function refresh() {
-  try {
-    const response = await axios.get(`${BACKEND_URL}/api/v1/content`, {
-      headers: { Authorization: localStorage.getItem("token") || "" }
-    });
-
-    console.log("API Response:", response.data); // Debugging
-
-    if (response.data && Array.isArray(response.data.contents)) {
-      setContents(response.data.contents);  // Ensure correct property name
-    } else {
-      console.error("Unexpected API response format", response.data);
-      setContents([]);  // Prevents undefined issues
-    }
-  } catch (error) {
-    console.error("Error fetching content:", error);
-  }
+// Define correct response type
+interface Content {
+    id: string;
+    title: string;
+    link: string;
+    type: "youtube" | "twitter";
 }
 
+interface ApiResponse {
+    contents: Content[];
+}
+
+export function useContent() {
+    const [contents, setContents] = useState<Content[]>([]); 
+
+    async function refresh() {
+        try {
+            const response = await axios.get<ApiResponse>(`${BACKEND_URL}/api/v1/content`, {
+                headers: { "Authorization": localStorage.getItem("token") || "" }
+            });
+
+            console.log("API Response:", response.data); // Debugging
+
+            if (response.data && Array.isArray(response.data.contents)) {
+                setContents(response.data.contents);
+            } else {
+                console.error("Unexpected API response format", response.data);
+                setContents([]);
+            }
+        } catch (error) {
+            console.error("Error fetching content:", error);
+        }
+    }
 
     useEffect(() => {
         refresh();
         const interval = setInterval(() => {
             refresh();
-        }, 10000); // ✅ Changed from 10 * 100 (1s) to 10000 (10s)
+        }, 10000);
 
         return () => {
             clearInterval(interval);
