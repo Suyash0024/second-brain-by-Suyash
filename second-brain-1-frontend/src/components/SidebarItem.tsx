@@ -1,7 +1,7 @@
 
-import { Logo } from "../icons/Logo";
-import { TwitterIcon } from "../icons/Twittericon";
-import { YoutubeIcon } from "../icons/YoutubeIcon";
+// import { Logo } from "../icons/Logo";
+// import { TwitterIcon } from "../icons/Twittericon";
+// import { YoutubeIcon } from "../icons/YoutubeIcon";
 
 import { ReactElement } from "react";
 
