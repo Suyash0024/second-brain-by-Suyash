@@ -11,6 +11,14 @@ import { Sidebar } from '../components/Sidebar';
 import { useContent } from '../hooks/useContent';
 import { BACKEND_URL } from '../config';
 
+// Define Content interface to ensure `_id` exists
+interface Content {
+  _id: string; 
+  title: string;
+  link: string;
+  type: "youtube" | "twitter";
+}
+
 export function Dashboard() {
   const [selectedType, setSelectedType] = useState<"twitter" | "youtube" | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -60,30 +68,35 @@ export function Dashboard() {
             variant="primary" 
             text="Add content" 
             startIcon={<PlusIcon />} 
-            size="md" 
+            size="lg" // ✅ Using a valid size
           />
 
           <Button 
             onClick={async () => {
-             const response = await axios.get<{ hash: string }>(`${BACKEND_URL}/api/v1/content`); {
-                share: true
-              }, {
-                headers: {
-                  "Authorization": localStorage.getItem("token")
-                }
-              });
-             const shareUrl = `http://localhost:5173/dashboard/${response.data.hash}`;
-              alert(shareUrl);
+              try {
+                const response = await axios.get<{ hash: string }>(`${BACKEND_URL}/api/v1/content`, {
+                  params: { share: true }, // ✅ Corrected axios.get request
+                  headers: {
+                    "Authorization": localStorage.getItem("token")
+                  }
+                });
+
+                const shareUrl = `http://localhost:5173/dashboard/${response.data.hash}`;
+                alert(shareUrl);
+              } catch (error) {
+                console.error("Error fetching share URL:", error);
+                alert("Failed to generate share link.");
+              }
             }}
             variant="secondary" 
             text="Share Brain" 
             startIcon={<ShareIcon />} 
-            size="md" // ✅ Fixed missing size
+            size="lg" // ✅ Ensured valid size
           />
         </div>
 
         <div className="flex gap-4 flex-wrap mt-6">
-          {filteredContents.map(({ _id, type, link, title }) => (
+          {filteredContents.map(({ _id, type, link, title }: Content) => (
             <Card 
               key={_id} 
               id={_id} 
@@ -100,6 +113,7 @@ export function Dashboard() {
 }
 
 export default Dashboard;
+
 
 
 // import '../App.css'
