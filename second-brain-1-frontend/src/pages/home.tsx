@@ -16,10 +16,10 @@ export function Home() {
         {/* Buttons */}
         <div className="flex justify-center space-x-4 mt-4">
           <Link to="/signin">
-            <Button variant="primary" size="medium" text="Sign In" /> {/* ✅ Fixed size */}
+            <Button variant="primary" size="md" text="Sign In" /> {/* ✅ Fixed size */}
           </Link>
           <Link to="/signup">
-            <Button variant="secondary" size="medium" text="Sign Up" /> {/* ✅ Fixed size */}
+            <Button variant="secondary" size="md" text="Sign Up" /> {/* ✅ Fixed size */}
           </Link>
         </div>
       </div>
