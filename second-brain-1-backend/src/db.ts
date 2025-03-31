@@ -1,21 +1,21 @@
 import mongoose, {model, Schema} from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
-const MONGODB_URI = process.env.MONGODB_URI?.trim(); // Ensure it's a string and remove spaces
+// const MONGODB_URI = process.env.MONGODB_URI?.trim(); // Ensure it's a string and remove spaces
 
-if (!MONGODB_URI || (!MONGODB_URI.startsWith("mongodb://") && !MONGODB_URI.startsWith("mongodb+srv://"))) {
-  console.error("❌ Invalid or missing MongoDB URI:", MONGODB_URI);
-  process.exit(1); // Stop the app if URI is missing
-}
+// if (!MONGODB_URI || (!MONGODB_URI.startsWith("mongodb://") && !MONGODB_URI.startsWith("mongodb+srv://"))) {
+//   console.error("❌ Invalid or missing MongoDB URI:", MONGODB_URI);
+//   process.exit(1); // Stop the app if URI is missing
+// }
 
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => console.log("✅ Connected to MongoDB successfully"))
-  .catch((err) => {
-    console.error("❌ MongoDB Connection Error:", err);
-    process.exit(1); // Exit on error
-  });
-// mongoose.connect("mongodb+srv://suyash24:suyash24@cluster01.vdwhb.mongodb.net/second-brain")
+// mongoose
+//   .connect(MONGODB_URI)
+//   .then(() => console.log("✅ Connected to MongoDB successfully"))
+//   .catch((err) => {
+//     console.error("❌ MongoDB Connection Error:", err);
+//     process.exit(1); // Exit on error
+//   });
+mongoose.connect("mongodb+srv://suyash24:suyash24@cluster01.vdwhb.mongodb.net/second-brain")
 
 const UserSchema = new Schema({
     username: {type: String, unique: true},
