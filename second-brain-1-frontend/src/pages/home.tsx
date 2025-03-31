@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "../components/Button";
-import { HeartIcon } from "../icons/Hearticon"; // ✅ Ensure correct path
+// import { HeartIcon } from "../icons/Hearticon"; // ✅ Ensure correct path
 
 export function Home() {
   return (
@@ -33,8 +33,8 @@ export function Home() {
 
       {/* ❤️ Footer Section */}
      <footer className="absolute bottom-5 text-gray-600 text-sm flex items-center">
-  Made with <HeartIcon className="w-10 h-10 text-red-500 border border-black" />
- by Suyash Garud
+ Made with ❤️ by Suyash Garud
+
 </footer>
 
     </div>
