@@ -60,7 +60,7 @@ export function Dashboard() {
             variant="primary" 
             text="Add content" 
             startIcon={<PlusIcon />} 
-            size="medium" 
+            size="md" 
           />
 
           <Button 
