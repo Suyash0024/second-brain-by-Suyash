@@ -11,8 +11,8 @@ interface SigninResponse {
 }
 
 export function Signin() {
-    const usernameRef = useRef<HTMLInputElement | null>(null); // ✅ Ensure ref has a valid type
-    const passwordRef = useRef<HTMLInputElement | null>(null);
+    const usernameRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
     async function signin() {
@@ -32,7 +32,7 @@ export function Signin() {
 
             const jwt = response.data.token;
             localStorage.setItem("token", jwt);
-            navigate("/dashboard"); // ✅ Redirect user
+            navigate("/dashboard");
 
         } catch (error) {
             console.error("Signin failed:", error);
@@ -43,10 +43,8 @@ export function Signin() {
     return (
         <div className="h-screen w-screen bg-gray-200 flex justify-center items-center">
             <div className="bg-white rounded-xl border min-w-48 p-8">
-                {/* ✅ Fix the ref prop */}
-             <Input reference={usernameRef} placeholder="Username" />
-            <Input reference={passwordRef} placeholder="Password" type="password" />
-
+                <Input reference={usernameRef} placeholder="Username" />
+                <Input reference={passwordRef} placeholder="Password" type="password" />
 
                 <div className="flex justify-center pt-4">
                     <Button onClick={signin} loading={false} variant="primary" text="Sign in" fullwidth={true} />
@@ -62,6 +60,7 @@ export function Signin() {
         </div>
     );
 }
+
 
 
 
