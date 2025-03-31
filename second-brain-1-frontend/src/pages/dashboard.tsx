@@ -32,13 +32,13 @@ export function Dashboard() {
 
   const deleteContent = async (id: string) => {
     try {
-      await axios.delete(`${BACKEND_URL}/api/v1/content`, {
-        headers: {
-          Authorization: localStorage.getItem("token") || "",
-          "Content-Type": "application/json",
-        },
-        data: { contentId: id },
-      });
+      await axios.delete(`${BACKEND_URL}/api/v1/content/${id}`, {
+  headers: {
+    Authorization: localStorage.getItem("token") || "",
+    "Content-Type": "application/json",
+  },
+});
+
       refresh();
     } catch (error) {
       console.error("Error deleting content:", error);
