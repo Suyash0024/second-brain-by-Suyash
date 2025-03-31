@@ -25,11 +25,11 @@ const variantClasses = {
     "secondary": "bg-purple-200 text-purple-600 hover:bg-purple-300 hover:shadow-md hover:shadow-purple-300/50 transition duration-300 ease-in-out"
 }
 
-const sizeStyles = {
-    // "sm": "py-2 px-2",
-    // "md": "py-2 px-4" ,
-    // "lg": "py-2 px-6"
-}
+// const sizeStyles = {
+//     // "sm": "py-2 px-2",
+//     // "md": "py-2 px-4" ,
+//     // "lg": "py-2 px-6"
+// }
 
 const defaultStyles = "px-4 py-2 rounded-md font-light flex items-center"
 
