@@ -6,21 +6,25 @@ import { BACKEND_URL } from "../config";
 export function useContent() {
     const [contents, setContents] = useState<any[]>([]); // ✅ Explicitly define type
 
-    function refresh() {
-        axios.get(`${BACKEND_URL}/api/v1/content`, {
-            headers: {
-                "Authorization": localStorage.getItem("token")
-            }
-        })
-        .then((response) => {
-            if (response.data && response.data.content) {
-                setContents(response.data.content);
-            }
-        })
-        .catch((error) => {
-            console.error("Error fetching content:", error);
-        });
+    async function refresh() {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/api/v1/content`, {
+      headers: { Authorization: localStorage.getItem("token") || "" }
+    });
+
+    console.log("API Response:", response.data); // Debugging
+
+    if (response.data && Array.isArray(response.data.contents)) {
+      setContents(response.data.contents);  // Ensure correct property name
+    } else {
+      console.error("Unexpected API response format", response.data);
+      setContents([]);  // Prevents undefined issues
     }
+  } catch (error) {
+    console.error("Error fetching content:", error);
+  }
+}
+
 
     useEffect(() => {
         refresh();
