@@ -3,25 +3,20 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
-export function useContent() {
-    const [contents, setContents] = useState<Array<{ _id: string; type: string; link: string; title: string }>>([]);
-
-    const refresh = async () => {
-        try {
-            const response = await axios.get(`${BACKEND_URL}/api/v1/content`, {
-                headers: { Authorization: localStorage.getItem("token") },
-            });
-            setContents(response.data.contents || []); // ✅ Ensure fallback to empty array
-        } catch (error) {
-            console.error("Error fetching content:", error);
-            setContents([]); // ✅ Prevent undefined state
-        }
-    };
-
-    useEffect(() => { refresh(); }, []);
-
-    return { contents, refresh };
+// ✅ Define response structure
+interface Content {
+    _id: string;
+    type: "twitter" | "youtube";
+    link: string;
+    title: string;
 }
+
+interface ContentResponse {
+    contents: Content[];
+}
+
+export function useContent()
+
 
 
 
