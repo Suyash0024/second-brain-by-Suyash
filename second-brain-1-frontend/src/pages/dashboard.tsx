@@ -65,14 +65,14 @@ export function Dashboard() {
 
           <Button 
             onClick={async () => {
-              const response = await axios.post(`${BACKEND_URL}/api/v1/brain/share`, {
+             const response = await axios.get<{ hash: string }>(`${BACKEND_URL}/api/v1/content`); {
                 share: true
               }, {
                 headers: {
                   "Authorization": localStorage.getItem("token")
                 }
               });
-              const shareUrl = `http://localhost:5173/dashboard/${response.data.hash}`;
+             const shareUrl = `http://localhost:5173/dashboard/${response.data.hash}`;
               alert(shareUrl);
             }}
             variant="secondary" 
